@@ -6,6 +6,7 @@ import com.woo.userapi.dto.req.UserReq;
 import com.woo.userapi.entity.User;
 import com.woo.userapi.entity.repository.UserRepository;
 import com.woo.userapi.util.MinioUtil;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -35,7 +36,7 @@ public class AuthService {
     }
 
     @Transactional(readOnly = true)
-    public void signIn(HttpServletRequest request, final UserReq userReq) {
+    public void signIn(HttpServletRequest request, HttpServletResponse response, final UserReq userReq) {
         User signInUser = userRepository.findUserByEmail(userReq.getEmail()).orElseThrow(() -> new BizException("login_fail"));
 
         if(!passwordEncoder.matches(userReq.getPassword(), signInUser.getPassword())) throw new BizException("login_fail");
@@ -44,6 +45,10 @@ public class AuthService {
         HttpSession session = request.getSession();
         session.setAttribute("userInfo", userInfo);
         session.setMaxInactiveInterval(3600);
+
+        Cookie sessionCookie = new Cookie("SESSION_ID", session.getId());
+        sessionCookie.setPath("/");
+        response.addCookie(sessionCookie);
     }
 
     public UserInfo getUser(HttpServletRequest request) {

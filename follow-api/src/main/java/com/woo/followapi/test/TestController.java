@@ -25,7 +25,7 @@ public class TestController {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 // 쿠키 이름이 "SESSION"인 쿠키를 찾음
-                if ("SESSION".equals(cookie.getName())) {
+                if ("SESSION_ID".equals(cookie.getName())) {
 //                    UserServiceGrpc.UserServiceBlockingStub stup = UserServiceGrpc.UserServiceBlockingStub.
                     UserServiceProto.UserServiceRequest req = UserServiceProto.UserServiceRequest.newBuilder().setSessionId(cookie.getValue()).build();
 

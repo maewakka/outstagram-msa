@@ -19,15 +19,21 @@ public class GrpcConfig {
     private final UserService userService;
 
     @PostConstruct
-    public void start() throws IOException, InterruptedException {
-        Server server = ServerBuilder.forPort(9999)
-                .addService(userService)
-                .build();
+    public void start() throws IOException {
+        new Thread(() -> {
+            try {
+                Server server = ServerBuilder.forPort(9999)
+                        .addService(userService)
+                        .build();
 
-        log.info("Starting GRPC Server...");
-        server.start();
-        log.info("GRPC Server Started!!");
-        server.awaitTermination();
+                log.info("Starting GRPC Server...");
+                server.start();
+                log.info("GRPC Server Started!!");
+                server.awaitTermination();
+            } catch (IOException | InterruptedException e) {
+                log.error("Error starting gRPC server", e);
+            }
+        }).start();
     }
 
 }

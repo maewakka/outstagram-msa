@@ -47,7 +47,7 @@ public class UserController {
 
     @PostMapping("/sign-in")
     public ResponseEntity<String> signIn(HttpServletRequest request, HttpServletResponse response, @RequestBody UserReq userReq) {
-        authService.signIn(request, userReq);
+        authService.signIn(request, response, userReq);
 
         return ResponseEntity.ok("로그인이 완료되었습니다.");
     }
