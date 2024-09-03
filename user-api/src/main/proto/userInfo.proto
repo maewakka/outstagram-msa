@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_package = "woo.com.proto"; // Java 패키지 설정
+option java_outer_classname = "UserServiceProto"; // 생성되는 클래스 이름
+
+service UserService {
+  rpc GetUserInfo (UserServiceRequest) returns (UserServiceResponse);
+}
+
+message UserServiceRequest {
+  string sessionId = 1;
+}
+
+message UserServiceResponse {
+  string id = 1;
+  string email = 2;
+  string nickName = 3;
+  string phone = 4;
+  string profileImageUrl = 5;
+}
