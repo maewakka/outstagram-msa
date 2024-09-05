@@ -12,7 +12,7 @@ message UserServiceRequest {
 }
 
 message UserServiceResponse {
-  string id = 1;
+  int64 id = 1;
   string email = 2;
   string nickName = 3;
   string phone = 4;
